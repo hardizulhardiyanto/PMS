@@ -1,0 +1,180 @@
+<% include ../../partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="chartjs-size-monitor"
+            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+            <div class="chartjs-size-monitor-expand"
+                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+            </div>
+            <div class="chartjs-size-monitor-shrink"
+                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div
+                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Users Admin Only</h1>
+            </div>
+
+            <div
+                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom">
+                <h1 class="h2">Filter</h1>
+            </div>
+            <% if(successEditUser.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <h2> <%= successEditUser %></h2>
+            </div>
+            <%}%>
+            <% if(successDelete.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <h2> <%= successDelete %></h2>
+            </div>
+            <%}%>
+
+            <% if(failedDelete.length > 0) { %>
+            <div class="alert alert-warning" role="alert">
+                <h2> <%= failedDelete %></h2>
+            </div>
+            <%}%>
+
+            <% if(addDataSuccess.length > 0) { %>
+                <div class="alert alert-warning" role="alert">
+                    <h2> <%= addDataSuccess %></h2>
+                </div>
+            <%}%>
+
+
+            <div class="table-responsive">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+
+                            <div class="form-group row">
+                                <label for="checkuser1" class="col-sm-3 col-form-label">User ID</label>
+                                <div class="col-form-label">
+                                    <input class="col-sm-6-form-check-input" type="checkbox" id="ckUser1"
+                                        name="ckUser1" <%= (query.ckUser1) ? 'checked' : ''%>>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="idUser" name="idUser" placeholder="USER ID"
+                value="<%=(query.idUser)%>">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="checkuser2" class="col-sm-3 col-form-label">User Name</label>
+        <div class="col-form-label">
+            <input class="col-sm-6-form-check-input" type="checkbox" id="ckUser2" name="ckUser2"
+                <%= (query.ckUser2) ? 'checked' : ''%>>
+        </div>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="nameUser" name="nameUser" placeholder="User Name"
+                value="<%=(query.nameUser)%>">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="checkuser3" class="col-sm-3 col-form-label">Position</label>
+        <div class="col-form-label">
+            <input class="col-sm-6-form-check-input" type="checkbox" id="ckUser3" name="ckUser3"
+                <%= (query.ckUser3) ? 'checked' : ''%>>
+        </div>
+        <div class="col-sm-8">
+            <select id="inputState" class="form-control" name="userPosition">
+                <option value="">Position</option>
+                <option value="manager">Manager
+                </option>
+                <option value="software developer">Software
+                    Developer</option>
+                <option value="quality assurance">Quality
+                    Assurance</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="checkuser4" class="col-sm-3 col-form-label">Working Status</label>
+        <div class="col-form-label">
+            <input class="col-sm-6-form-check-input" type="checkbox" id="ckUser4" name="ckUser4">
+        </div>
+        <div class="col-sm-8">
+            <select id="inputState" class="form-control" name="userWorking">
+                <option value="">Working Status</option>
+                <option value="fulltime">Full Time
+                </option>
+                <option value="parttime">Part Time
+                </option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+    <a href='/users' class="btn btn-outline-warning">Reset</a>
+
+    </form>
+</div>
+<br>
+<div class="card-body" style="background-color: aqua">
+    <div style="margin-right:60px">
+        <table class="table table-hover">
+
+            <a href='/users/addUser' class="btn btn-outline-primary">ADD</a>
+            <br>
+            <br>
+            <thead>
+                <tr>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Working Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < data.length; i++) {%>
+                <tr>
+                    <th><%= data[i].userid%></th>
+                    <th><%= data[i].firstname+' '+data[i].lastname%></th>
+                    <th><%= data[i].roles%></th>
+                    <th><%= data[i].work_status%></th>
+
+                    <td>
+                        <a href="/users/edit/<%=data[i].userid%>" class="btn btn-primary"> EDIT </a>
+
+                        <a href="/users/delete/<%=data[i].userid%>" class="btn btn-danger" onclick="return confirm('Delete This  User?')"> Delete </a>
+                    </td>
+                </tr>
+            </tbody>
+            <%}%>
+                            </table>
+                            <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item<%= 1 == pagination.page ? ' disabled' : ''%>"><a
+                class="page-link"
+                href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) - 1}`) %>">Previous</a>
+            </li>
+            <% for(let i = 1; i <= pagination.pages;i++) { %>
+            <li class="page-item<%= i == pagination.page ? ' active' : ''%>"><a class="page-link"
+                    href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a>
+            </li>
+            <% } %>
+            <li class="page-item<%= pagination.pages <= pagination.page ? ' disabled' : ''%>"><a class="page-link"
+                    href="/users<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) + 1}`) %>">Next</a>
+            </li>
+            </ul>
+            </nav>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<% include ../../partial/footer %>

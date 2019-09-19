@@ -1,0 +1,39 @@
+<% include ../partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <% include ../partial/sidebar%>
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Overview</h1>
+        </div>
+
+        <h2>Library System</h2>
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <p>Issue Tracking</p>
+                        <li>Bug: <%=dtBug%> Open / <%=dtStatus%> </li>
+                        <li>Feature: <%=dtFeature%> Open / <%=dtStatus%></li>
+                        <li>Support: <%=dtSupport%> Open / <%=dtStatus%></li>
+                    </ul>
+                </div>
+                <br />
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <p>Members</p>
+                        <% for (let i = 0; i < dataProc.length; i++) {%>
+                        <li><%=dataProc[i].firstname +' '+ dataProc[i].lastname%></li>
+                        <%}%>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+<% include ../partial/endsidebar %>
+<% include ../partial/footer %>

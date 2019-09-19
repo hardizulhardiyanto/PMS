@@ -1,0 +1,134 @@
+<% include ../partial/header %>
+<h1 style="margin-top:15px;margin-left:30px"><b>PROJECT</b></h1>
+<hr>
+</hr>
+<h3 class="col-sm-1" style="color:darkslategrey;border-radius: 5px;margin-top:0px;margin-left:30px;">Filters</h3>
+
+<div class="container">
+    <form action="/projects" method="get">
+        <input type="hidden" name="page" value="1">
+        <div class="form-group row">
+            <div class="col-form-label">
+                <input class="form-check-input" type="checkbox" id="ck1" name="ck1" <%= (query.ck1) ? 'checked':'' %>>
+            </div>
+            <label for="checkpro1" class="col-sm-2 col-form-label">ID</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="id_number" name="id_number" placeholder="ID"
+                    value="<%= query.id_number%>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label">
+                <input class="form-check-input" type="checkbox" id="ck2" name="ck2" <%= (query.ck2) ? 'checked' : '' %>>
+            </div>
+            <label for="checkpro2" class="col-sm-2 col-form-label">Project Name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="project_name" name="project_name" placeholder="Project Name"
+                    value="<%= (query.project_name) %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-form-label">
+                <input class="form-check-input" type="checkbox" id="ck3" name="ck3" <%= (query.ck3) ? 'checked' : '' %>>
+            </div>
+            <label for="checkpro3" class="col-sm-2 col-form-label">Member</label>
+            <div class="col-sm-9">
+                <select class="form-control" name="member">
+                    <option value="">Find Your Member</option>
+                    <% dtAllMember.forEach((item) => { %>
+                    <option value="<%=  item.userid %>" > <%=  item.firstname+' '+item.lastname %> </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-secondary">Search</button>
+        <a href='/projects' class="btn btn-danger">Reset</a>
+    </form>
+</div>
+
+<h3 class="col-sm-1" style="color:rgb(47, 21, 80);border-radius: 5px;margin-top:0px;margin-left:30px;">Option</h3>
+
+<fieldset class="form-group" style="margin-left:50px">
+    <form method="POST" action="/projects/projectoptions">
+        <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0">Columns</legend>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="idcheckbox" id="checkbox1" value="true"
+                        <%= optionproject.idcheckbox ? 'checked' : '' %>>
+                    <label class="custom-control-label" for="checkbox1">
+                        ID Project
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="namecheckbox" id="checkbox2" value="true" <%= optionproject.namecheckbox ? 'checked' : '' %> >
+                    <label class="custom-control-label" for="checkbox2">
+                        Name
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="memberscheckbox" id="checkbox3"
+                        value="true" <%= optionproject.memberscheckbox ? 'checked' : '' %> >
+                    <label class="custom-control-label" for="checkbox3">
+                        Members
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Apply</button>
+    </form>
+</fieldset>
+
+<div style="margin-left:50px;margin-right:100px">
+    <table class="table table-condensed" id="example" class="display">
+        <thead>
+            <tr>
+                <% if (optionproject.idcheckbox) {%><th scope="col">#</th><%}%>
+                <% if (optionproject.namecheckbox) {%><th scope="col1">Name</th></div> <%}%>
+                <% if (optionproject.memberscheckbox){%><th scope="col">Members</th><%}%>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <% data.forEach((item) => {%>
+
+            <tr>
+                <% if (optionproject.idcheckbox) { %>
+                <th scope="row"><a href="/projects/overview/<%= item.projectid %>"> <%= item.projectid %> </th> <%}%>
+                <% if (optionproject.namecheckbox) {%>
+                <td><%= item.name %></td><%}%>
+                <% if (optionproject.memberscheckbox) {%>
+                <td><%= item.firstname+' '+item.lastname %></td><%}%>
+                <td>
+                    <a href="/projects/edit/<%=item.projectid%>" class="btn btn-primary"> EDIT </a>
+
+                    <a href="/projects/delete/<%=item.userid%>" class="btn btn-danger"> Delete </a>
+                </td>
+
+            </tr>
+
+            <% }) %>
+
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item<%= 1 == pagination.page ? ' disabled' : ''%>"><a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) - 1}`) %>">Previous</a>
+                </li>
+                <% for(let i = 1; i <= pagination.pages;i++) { %>
+                <li class="page-item<%= i == pagination.page ? ' active' : ''%>"><a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a></li>
+                <% } %>
+                <li class="page-item<%= pagination.pages <= pagination.page ? ' disabled' : ''%>"><a class="page-link"
+                        href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) + 1}`) %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+    <a href='/projects/add' class="btn btn-outline-danger">Add</a></td>
+</div>
+
+<% include ../partial/footer %>

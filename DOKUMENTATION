@@ -1,0 +1,2 @@
+1. HAL /projects = BUG FILTER : Indikator cek loopingan dan database
+2. Membuat SEMUA Alert lihat yang add Member = /postAddMember/:dtParams untuk router POST untuk GET /addMembers/:dtParams 

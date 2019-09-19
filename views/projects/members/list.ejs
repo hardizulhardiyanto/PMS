@@ -1,0 +1,173 @@
+<% include ../../partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <% include ../../partial/sidebar%>
+
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Members</h1>
+        </div>
+
+        <h2>Filter</h2>
+        <label>
+            <% if(successAddmember.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <h2> <%= successAddmember %></h2>
+            </div>
+            <%}%>
+                  
+        </label>
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+
+                    <form>
+                        <input type="hidden" name="page" value="1">
+
+                        <div class="form-group row">
+                            <label for="checkmem1" class="col-sm-3 col-form-label">User ID</label>
+                            <div class="col-form-label">
+                                <input class="col-sm-6-form-check-input" type="checkbox" id="ck1" name="ck1"
+                                    <%= (query.ck1) ? 'checked' : ''%>>
+    </div>
+    <div class="col-md-8">
+        <input type="text" class="form-control" id="id_member" name="id_member" placeholder="User ID"
+            value="<%=query.id_member%>">
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="checkmem2" class="col-sm-3 col-form-label">Member Firstname</label>
+    <div class="col-form-label">
+        <input class="col-sm-6-form-check-input" type="checkbox" id="ck2" name="ck2"
+            <%= (query.ck2) ? 'checked' : '' %>>
+    </div>
+    <div class="col-md-8">
+        <input type="text" class="form-control" id="nameMember" name="nameMember" placeholder="Member Name"
+            value="<%=query.nameMember%>">
+    </div>
+</div>
+
+<div class="form-group row">
+    <label for="checkmem3" class="col-sm-3 col-form-label">Position</label>
+    <div class="col-form-label">
+        <input class="col-sm-6-form-check-input" type="checkbox" id="ck3" name="ck3" <%= (query.ck3) ? 'checked':'' %>>
+    </div>
+    <div class="col-md-8">
+        <select id="inputState" class="form-control" name="positionMember">
+            <option value="">Position</option>
+            <option value="manager">Manager
+            </option>
+            <option value="software developer">Software
+                Developer</option>
+            <option value="quality assurance">Quality
+                Assurance</option>
+        </select>
+    </div>
+</div>
+
+<button type="submit" class="btn btn-outline-secondary">Search</button>
+<a href='/projects/listMember/<%=dtParams%>' class="btn btn-outline-warning">Reset</a>
+</form>
+
+<br />
+
+<h2>Option</h2>
+
+<fieldset class="form-group">
+    <form method="post" action="/projects/optionsListMember/<%=dtParams%>">
+        <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0">Columns</legend>
+            <div class="col-sm-10">
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="idckmembers" id="checkbox1" value="true"
+                        <%= dataOption.idckmembers ? 'checked': ''%>>
+                    <label class="custom-control-label" for="checkbox1">
+                        ID
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="nameckmembers" id="checkbox2" value="true"
+                        <%= dataOption.nameckmembers ? 'checked':''%>>
+                    <label class="custom-control-label" for="checkbox2">
+                        Name
+                    </label>
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input class="custom-control-input" type="checkbox" name="postckmembers" id="checkbox3" value="true"
+                        <%= dataOption.postckmembers ? 'checked' : ''%>>
+                    <label class="custom-control-label" for="checkbox3">
+                        Position
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Apply</button>
+
+    </form>
+</fieldset>
+
+
+</div>
+<br />
+</div>
+<div class="card">
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <% if (dataOption.idckmembers) {%>
+                <th scope="col">ID</th><%}%>
+                            <% if (dataOption.nameckmembers) {%>
+                <th scope="col">Name</th><%}%>
+                            <% if (dataOption.postckmembers) {%>
+                <th scope="col">Position</th><%}%>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <% dtProject.forEach((item) => {%>
+            <tr>
+                <% if (dataOption.idckmembers) {%>
+                <th scope="row"> <%= item.userid %></th><%}%>
+                            <% if (dataOption.nameckmembers) {%>
+                <td><%= item.firstname+' '+item.lastname %></td><%}%>
+                            <% if (dataOption.postckmembers) {%>
+                <td><%= item.roleid %></td><%}%>
+
+                            <td>
+                                <a href="/projects/editMember/<%= item.userid %>/<%= dtParams %>" class="btn
+                btn-primary"> EDIT </a>
+
+                <a href="/projects/deleteMember/<%= item.userid %>/<%= dtParams %>" class="btn btn-danger"> Delete </a>
+                </td>
+
+            </tr>
+            <% }) %>
+
+            </tbody>
+    </table>
+</div>
+
+<nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item<%= 1 == pagination.page ? ' disabled' : ''%>"><a class="page-link"
+                    href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) - 1}`) %>">Previous</a>
+            </li>
+            <% for(let i = 1; i <= pagination.pages;i++) { %>
+            <li class="page-item<%= i == pagination.page ? ' active' : ''%>"><a class="page-link"
+                    href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${i}`) %>"><%= i %></a></li>
+            <% } %>
+            <li class="page-item<%= pagination.pages <= pagination.page ? ' disabled' : ''%>"><a class="page-link"
+                    href="/projects<%= pagination.url.replace(`page=${pagination.page}`, `page=${parseInt(pagination.page) + 1}`) %>">Next</a>
+            </li>
+        </ul>
+    </nav>
+<a href="/projects/addMembers/<%=dtParams%>" class="btn btn-primary" style="margin-left:2px">Add</a>
+</div>
+</div>
+</div>
+<% include ../../partial/endsidebar %>
+<% include ../../partial/footer %>

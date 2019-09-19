@@ -1,0 +1,98 @@
+<% include partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <% include partial/sidebar%>
+
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Users Admin Only</h1>
+        </div>
+
+        <h2>Filter</h2>
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <input type="hidden" name="page" value="1">
+                        <div class="form-group row">
+                            <div class="col-form-label">
+                                <input class="form-check-input" type="checkbox" id="checkuser1" name="checkuser1">
+                            </div>
+                            <label for="checkuser1" class="col-sm-2 col-form-label">User ID</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="haluserid" name="haluserid"
+                                    placeholder="User ID" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-form-label">
+                                <input class="form-check-input" type="checkbox" id="checkuser2" name="checkuser2">
+                            </div>
+                            <label for="checkuser2" class="col-sm-2 col-form-label">User Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="halusername" name="halusername"
+                                    placeholder="User Name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-form-label">
+                                <input class="form-check-input" type="checkbox" id="checkuser3" name="checkuser3">
+                            </div>
+                            <label for="checkuser3" class="col-sm-2 col-form-label">Position</label>
+                            <div class="col-sm-9">
+                                <select id="inputState" class="form-control" name="haluserposition">
+                                    <option value="">Position</option>
+                                    <option value="manager">Manager
+                                    </option>
+                                    <option value="software">Software
+                                        Developer</option>
+                                    <option value="quality">Quality
+                                        Assurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-form-label">
+                                <input class="form-check-input" type="checkbox" id="checkuser4" name="checkuser4">
+                            </div>
+                            <label for="checkuser4" class="col-sm-2 col-form-label">Working Status</label>
+                            <div class="col-sm-9">
+                                <select id="inputState" class="form-control" name="halworkingstat">
+                                    <option value="">Working Status</option>
+                                    <option value="fulltime">Full Time
+                                    </option>
+                                    <option value="parttime">Part Time
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
+                        <a href='/users/list' class="btn btn-outline-warning">Reset</a>
+                    </form>
+                </div>
+                <br>
+                <div class="card-body">
+                    <div style="margin-right:60px">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">User ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Position</th>
+                                    <th scope="col">Working Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                           
+                        </table>
+                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partial/endsidebar %>
+<% include partial/footer %>

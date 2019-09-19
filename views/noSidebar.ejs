@@ -1,0 +1,108 @@
+<% include partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="chartjs-size-monitor"
+            style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+            <div class="chartjs-size-monitor-expand"
+                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+            </div>
+            <div class="chartjs-size-monitor-shrink"
+                style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div
+                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Users Admin Only</h1>
+            </div>
+
+            <div class="form-group row">
+                    <label for="editFirstname" class="col-sm-2 col-form-label">First Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="editFirstname" name="editFirstname"
+                            placeholder="Fill first name" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="editLastname" class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="editLastname" name="editLastname"
+                            placeholder="Fill last name" value="" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="editEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="editEmail" name="editEmail" placeholder="Email" value="" >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="editPass" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="editPass" name="editPass" placeholder="Password" value="" >
+                    </div>
+                </div>
+                <!-- position-radio -->
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">Position</legend>
+                    <fieldset id="editPosition-radio" class="col-form-label col-sm-10 pt-0">
+                        <div class="col-sm-10">
+                            <div class="custom-control custom-radio my-1 mr-sm-2">
+                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio1"
+                                    value="manager" >
+                                <label class="custom-control-label" for="editPosition-radio1">
+                                    Manager
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio my-1 mr-sm-2">
+                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio2"
+                                    value="software" >
+                                <label class="custom-control-label" for="editPosition-radio2">
+                                    Software Developer
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio my-1 mr-sm-2">
+                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio3"
+                                    value="quality" >
+                                <label class="custom-control-label" for="editPosition-radio3">
+                                    Quality Assurance
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">Working Status</legend>
+                    <fieldset id="editStatus-radio" cslass="col-form-label col-sm-10 pt-0">
+                        <div class="col-sm-10">
+                            <div class="custom-control custom-radio my-1 mr-sm-2">
+                                <input class="custom-control-input" type="radio" name="editStatus" id="editStatus-radio1"
+                                    value="fulltime">
+                                <label class="custom-control-label" for="editStatus-radio1">
+                                    Full Time
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio my-1 mr-sm-2">
+                                <input class="custom-control-input" type="radio" name="editStatus" id="editStatus-radio2"
+                                    value="parttime" >
+                                <label class="custom-control-label" for="editStatus-radio2">
+                                    Part Time
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                
+                <button type="submit" class="btn btn-outline-info" onclick="return confirm('Edit This User?')">Save</button>
+            <a href='/users' class="btn btn-outline-warning">Cancel</a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include partial/footer %>

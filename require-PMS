@@ -1,0 +1,36 @@
+require ch21
+
+DATABASE
+	1. install postgre sql
+		install using "https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04"
+
+	2. install pgadmin 
+		install using "https://tecadmin.net/install-pgadmin4-on-ubuntu/"
+
+	3. instal NPM PG to conneck your database
+		install using "https://www.npmjs.com/package/pg"
+
+	4. instal NPM MOMENT to Aplly "Date" Postgres
+		install using "https://www.npmjs.com/package/moment"
+
+Dependency
+
+	1. "npm init --yes" *Didalam folder eksekusi
+	
+	2. install express-generator
+		instal using "http://expressjs.com/en/starter/generator.html"
+
+	3. instal body-parser
+		install using " npm i body-parser --save"
+
+	4. install bootstrap
+		install using " npm i bootstrap --save"
+
+	5. install nodemone > digunakan untuk router agar tidak perlu merestart terminal, 
+		cara penggunaan > 
+		1. install nodemon > " npm install --save-dev nodemon "
+		2. tambahkan dev nodemon setelah start > "dev": "nodemon ./bin/www"
+		3. panggil menggunakan > " npm run dev"
+
+	6. install express-session
+		install using " https://www.npmjs.com/package/express-session "

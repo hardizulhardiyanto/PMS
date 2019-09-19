@@ -1,0 +1,77 @@
+<% include ../../partial/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <% include ../../partial/sidebar%>
+
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Edit Members</h1>
+        </div>
+
+        <h2>Filter</h2>
+        <div class="table-responsive">
+            <div class="card">
+                <div class="card-body">
+
+                    <form method="post" action="/projects/editDTMember/<%= dtEditShow[0].userid %>/<%=dtParams%>"" method="POST">
+
+                        <div class="form-group row">
+                            <label for="inputUser" class="col-sm-2 col-form-label">User ID</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edituser" name="edituser"
+                                    placeholder="<%= dtEditShow[0].userid %>" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputUser" class="col-sm-2 col-form-label">Member Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="editname" name="editname"
+                                    placeholder="<%= dtEditShow[0].firstname+' '+dtEditShow[0].lastname %>" value=""
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <legend class="col-form-label col-sm-2 pt-0">Position</legend>
+                            <fieldset id="position-radio" class="col-form-label col-sm-10 pt-0">
+                                <div class="col-sm-10">
+                                    <div class="custom-control custom-radio my-1 mr-sm-2">
+                                        <input class="custom-control-input" type="radio" name="memberPosition"
+                                            id="memberPositionRadio1" value="manager"
+                                            <%= (dtEditShow[0].roleid == 'manager') ? 'checked':''%>>
+                                        <label class="custom-control-label" for="memberPositionRadio1">
+                                            Manager
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio my-1 mr-sm-2">
+                                        <input class="custom-control-input" type="radio" name="memberPosition"
+                                            id="memberPositionRadio2" value="software developer"
+                                            <%= (dtEditShow[0].roleid == 'software developer') ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="memberPositionRadio2">
+                                            Software Developer
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio my-1 mr-sm-2">
+                                        <input class="custom-control-input" type="radio" name="memberPosition"
+                                            id="memberPositionRadio3" value="quality assurance"
+                                            <%= (dtEditShow[0].roleid == 'quality assurance') ? 'checked' : '' %>>
+                                        <label class="custom-control-label" for="memberPositionRadio3">
+                                            Quality Assurance
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Save</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<% include ../../partial/endsidebar %>
+<% include ../../partial/footer %>

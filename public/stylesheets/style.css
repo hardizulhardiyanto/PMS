@@ -1,0 +1,20 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#responsive {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  background: url('https://s20.postimg.org/o09gf7fvx/bag.jpg') no-repeat center top;
+  background-size: contain;
+}
+
+#dummy {
+  padding-top: 29%;
+}
