@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('ch24-29:server');
+var debug = require('debug')('PMS:server');
 var http = require('http');
 
 /**
