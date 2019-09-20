@@ -448,6 +448,7 @@ module.exports = function (pool) {
   // ===================== MEMBER ROUTER AREA ========================================\\
   /*GET DATA MEMBER*/
   router.get('/listMember/:projectid', (req, res, next) => {
+    let nav1 = 2
     console.log("");
     console.log("");
     console.log("");
@@ -1208,34 +1209,30 @@ module.exports = function (pool) {
     var sevendays = date.setTime(date.getTime() - (days * 24 * 60 * 60 * 1000));
     console.log(sevendays);
 
+    let sqlAct = `SELECT activity.activityid,time, title, description, author, users.userid, firstname, lastname 
+    FROM activity
+    INNER JOIN users ON activity.author=users.userid WHERE time BETWEEN '${moment(sevendays).format('YYYY-MM-DD')}' AND '${moment(now).add(1, 'days').format('YYYY-MM-DD')}' order by time desc`;
 
-
-
-    // let sql = `SELECT * FROM activity INNER JOIN users ON activity.author=users.userid WHERE time BETWEEN '${moment(sevendays).format('YYYY-MM-DD')}' AND '${moment(now).add(1, 'days').format('YYYY-MM-DD')}' order by time desc`;
-    // console.log('this sql acitivity GET>>', sql);
-    // pool.query(sql, (err, data) => {
-      let result = {};
-      // data.rows.forEach((item) => {
-      //   if (result[moment(item.time).format('dddd')] && result[moment(item.time).format('dddd')].data) {
-      //     result[moment(item.time).format('dddd')].data.push(item);
-      //   } else {
-      //     result[moment(item.time).format('dddd')] = { date: moment(item.time).format('YYYY-MM-DD'), data: [item] };
-      //   }
-        // })
-        console.log(result);
-
-        res.render('projects/activity', {
-          projectid: req.params.projectid,
-          path,
-          isAdmin: req.session.user,
-          data: result,
-          now,
-          sevendays,
-          moment,
-          dtParams, nav, nav1
-        })
-      // })
-    // })
+    console.log('this date >', sqlAct);
+    pool.query(sqlAct, (err, data) => {
+      let result = {}
+      data.rows.forEach((item) => {
+        if (result[moment(item.time).format('dddd')] && result[moment(item.time).format('dddd')].data){
+          result[moment(item.time).format('dddd')].data.push(item);
+        }else{
+          result[moment(item.time).format('dddd')] = {date: moment(item.time).format('YYYY-MM-DD'), data: [item]};
+        }
+      })
+      console.log('data result > ', result);
+      res.render('projects/activity', {
+        dtParams,path,
+        isAdmin: req.session.user,
+        data: result,
+        now,
+        sevendays,
+        moment
+      })
+    })
   })
 
   // // ===================  USERS AREA ============= \\

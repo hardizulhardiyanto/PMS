@@ -4,23 +4,32 @@
     <div class="row">
         <% include ../partial/sidebar%>
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Activity</h1>
         </div>
 
-        <h2>FROM</h2>
+        <h2>FROM <%= moment(sevendays).format('DD/MM/YYYY')%> to <%= moment(now).format('DD/MM/YYYY')%></h2>
         <div class="table-responsive">
             <div class="card">
                 <div class="card-body">
-                     
-
-
+                    <% for (var key in data) {%>
+                    <ul>
+                        <strong>
+                            <%= data[key].date == moment(now).format('YYYY-MM-DD') ? 'Today' : key %>
+                        </strong>
+                        <% data[key].data.forEach((item)=> { %>
+                        <li> <%= `${moment(item.time).format('HH:mm')} ${item.title} : ${item.description}, Author : ${item.firstname+' '+item.lastname}`%>
+                        </li>
+                        <%})%>
+                    </ul>
+                    <%}%>
                 </div>
                 <br />
             </div>
             <div class="card">
                 <div class="card-body">
-                     
+
 
 
                 </div>
@@ -28,5 +37,5 @@
         </div>
 
 
-<% include ../partial/endsidebar %>
-<% include ../partial/footer %>
+        <% include ../partial/endsidebar %>
+        <% include ../partial/footer %>
