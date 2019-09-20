@@ -125,7 +125,9 @@ module.exports = (pool) => {
       
 
       res.render('projects/users/edit', {
-        data: resUser.rows[0]
+        data: resUser.rows[0],
+        user: req.session.user
+
       })
 
     })
@@ -212,6 +214,7 @@ module.exports = (pool) => {
 
   })
 
+  /**Get Add User*/
   router.get('/addUser', (req, res) => {
     nav = 3
     console.log("");
@@ -226,9 +229,13 @@ module.exports = (pool) => {
 
 
 
-    res.render('projects/users/add')
+    res.render('projects/users/add',{
+      user: req.session.user
+
+    })
   })
 
+  /**Post Add User */
   router.post('/postAddUser', (req, res) => {
     nav = 3
     console.log("");
@@ -239,6 +246,13 @@ module.exports = (pool) => {
     console.log("");
     console.log("");
     console.log("");
+
+    let dtOptionproject = `{"idcheckbox":"true","namecheckbox":"true","memberscheckbox":"true"}`;
+
+    let dtOptionMember = `{"idckmembers":"true","nameckmembers":"true","postckmembers":"true"}`;
+
+    let dtOptionList = `{"idckissue":"true","subjectckissue":"true","trackerckissue":"true","statusckissue":"true","priorityckissue":"true","descckissue":"true","stdateckissue":"true","duedateckissue":"true","estTimeckissue":"true","doneissue":"true","authorissue":"true","assigneeissue":"true"}`
+
 
     const {
       newFirstname,
@@ -255,8 +269,8 @@ module.exports = (pool) => {
 
 
     let sqlAdd = `INSERT INTO public.users(
-      email, firstname, lastname, roles, password, work_status, admin)
-      VALUES ('${newEmail}', '${newFirstname}', '${newLastname}', '${position}', '${newPass}', '${workingStatus}', '${userStatus}'); `
+      email, firstname, lastname, roles, password, work_status, admin, optionproject, optionmember, optionlist)
+      VALUES ('${newEmail}', '${newFirstname}', '${newLastname}', '${position}', '${newPass}', '${workingStatus}', '${userStatus}', '${dtOptionproject}', '${dtOptionMember}','${dtOptionList}'); `
     console.log(sqlAdd);
 
     pool.query(sqlAdd, (err, dtInsert) => {

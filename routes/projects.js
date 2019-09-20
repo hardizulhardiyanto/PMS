@@ -126,7 +126,10 @@ module.exports = function (pool) {
               },
               query: req.query,
               optionproject: JSON.parse(dataOptionProject.rows[0].optionproject),
-              dtAllMember: allMember.rows
+              dtAllMember: allMember.rows,
+              addProjectSuccess: req.flash('addProjectSuccess'),
+              editSuccess: req.flash('editSuccess'),
+              deleteProject: req.flash('deleteProject')
             })
           })
         })
@@ -179,7 +182,10 @@ module.exports = function (pool) {
       console.log(responsData.rows);
 
       res.render('projects/add', {
-        data: responsData.rows, nav
+        data: responsData.rows, nav,
+        user: req.session.user,
+        dataNull: req.flash('dataNull')
+
       });
     })
 
@@ -234,13 +240,14 @@ module.exports = function (pool) {
       })
       console.log("Success");
       console.log(insertId);
-
-      res.redirect('/projects/add');
+      req.flash('addProjectSuccess', 'Well Done! add project success')
+      res.redirect('/projects');
 
 
     } else {
 
       console.log("data kosong");
+      req.flash('dataNull', 'Sory! data cant null ')
       res.redirect('/projects/add');
 
     }
@@ -301,7 +308,9 @@ module.exports = function (pool) {
             {
               data: dbProjectResult.rows, nav,
               dataMember: dataFullname.rows.map(item => item.userid),
-              dataUser: showUser.rows
+              dataUser: showUser.rows,
+              user: req.session.user
+
             })
 
         })
@@ -355,7 +364,7 @@ module.exports = function (pool) {
         }
 
         pool.query(tbInsertMember, (err, insertDTMember) => {
-
+          req.flash('editSuccess', 'Well done!! edit data success ')
           res.redirect('/projects')
 
         })
@@ -380,7 +389,7 @@ module.exports = function (pool) {
     pool.query(delMember, (err, delDTmember) => {
 
       console.log(delMember);
-
+      req.flash('deleteProject', 'Okey Delete Success!!')
       res.redirect('/projects')
     })
 
@@ -435,7 +444,9 @@ module.exports = function (pool) {
 
               res.render('projects/overview', {
                 dataProc: procdataDB.rows, dtParams, nav1, nav,
-                dtBug, dtFeature, dtSupport, dtStatus
+                dtBug, dtFeature, dtSupport, dtStatus,
+                user: req.session.user
+
               })
 
             })
@@ -557,7 +568,9 @@ module.exports = function (pool) {
             },
             query: req.query,
             dataOption: JSON.parse(dtOption.rows[0].optionmember),
-            successAddmember: req.flash('successAddMember')
+            successAddmember: req.flash('successAddMember'),
+            user: req.session.user
+
 
           })
 
@@ -663,7 +676,9 @@ module.exports = function (pool) {
     pool.query(tblMember, (err, showDTedit) => {
 
       res.render('projects/members/edit', {
-        dtEditShow: showDTedit.rows, dtParams, nav, nav1
+        dtEditShow: showDTedit.rows, dtParams, nav, nav1,
+        user: req.session.user
+
       })
     })
   })
@@ -748,7 +763,9 @@ module.exports = function (pool) {
     pool.query(sqlData, (err, addMember) => {
       res.render('projects/members/add', {
         dataDB: addMember.rows, dtParams, nav, nav1,
-        warningAdd: req.flash('warningAddMember')
+        warningAdd: req.flash('warningAddMember'),
+        user: req.session.user
+
       })
     })
 
@@ -896,7 +913,9 @@ module.exports = function (pool) {
             dataOptionIssue: JSON.parse(optionIssueShow.rows[0].optionlist),
             successAddIssue: req.flash('successAddIssue'),
             successDELETEIssue: req.flash('deleteIssue'),
-            successEditIssue: req.flash('successEdit')
+            successEditIssue: req.flash('successEdit'),
+            user: req.session.user
+
 
 
           })
@@ -964,7 +983,9 @@ module.exports = function (pool) {
         res.render('projects/issues/add', {
           dataUser: dtUser.rows, dtParams, nav, nav1,
           user: req.session.user, moment,
-          idParentIssue: dataParentIssue.rows
+          idParentIssue: dataParentIssue.rows,
+          user: req.session.user
+
         })
       })
 
@@ -1066,7 +1087,9 @@ module.exports = function (pool) {
         res.render('projects/issues/edit', {
           dtAssignee: dtMember.rows, nav, nav1,
           dtIssue: allIssue.rows, moment,
-          dtParams
+          dtParams,
+          user: req.session.user
+
         })
 
       })
@@ -1219,38 +1242,26 @@ module.exports = function (pool) {
     pool.query(sqlAct, (err, data) => {
       let result = {}
       data.rows.forEach((item) => {
-        if (result[moment(item.time).format('dddd')] && result[moment(item.time).format('dddd')].data){
+        if (result[moment(item.time).format('dddd')] && result[moment(item.time).format('dddd')].data) {
           result[moment(item.time).format('dddd')].data.push(item);
-        }else{
-          result[moment(item.time).format('dddd')] = {date: moment(item.time).format('YYYY-MM-DD'), data: [item]};
+        } else {
+          result[moment(item.time).format('dddd')] = { date: moment(item.time).format('YYYY-MM-DD'), data: [item] };
         }
       })
       console.log('data result > ', result);
       res.render('projects/activity', {
-        dtParams,path,
+        dtParams, path,
         isAdmin: req.session.user,
         data: result,
         now,
         sevendays,
-        moment
+        moment,
+        user: req.session.user
+
       })
     })
   })
 
-  // // ===================  USERS AREA ============= \\
-
-  // router.get('/', (req, res) => {
-  //   nav1 = 7
-  //   console.log("");
-  //   console.log("");
-  //   console.log("");
-  //   console.log("WORK ROUTER PROJECTS");
-  //   console.log("=====================GET PROCESS USERS=============================");
-  //   console.log("");
-  //   console.log("");
-  //   console.log("");
-
-  // })
 
 
   return router;

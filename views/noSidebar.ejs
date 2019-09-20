@@ -13,96 +13,134 @@
                 <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
             </div>
         </div>
-
         <div class="card-body">
             <div
                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Users Admin Only</h1>
+                <h1 class="h2">Project</h1>
             </div>
 
-            <div class="form-group row">
-                    <label for="editFirstname" class="col-sm-2 col-form-label">First Name</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="editFirstname" name="editFirstname"
-                            placeholder="Fill first name" value="">
-                    </div>
+            <div class="card">
+                <br>
+                <h4 class="col-sm-1"
+                    style="color:rgb(47, 21, 80);border-radius: 5px;margin-top:0px;margin-left:30px;font-size: 30px;">
+                    Filter</h4>
+
+                <div class="container">
+                    <form action="/projects" method="get">
+                        <input type="hidden" name="page" value="1">
+
+                        <div class="form-group row">
+                            <label for="checkpro1" class="col-sm-3 col-form-label">ID</label>
+                            <div class="col-form-label">
+                                <input class="col-sm-6-form-check-input" type="checkbox" id="ck1" name="ck1">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="id_number" name="id_number" placeholder="ID"
+                                    value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="checkpro2" class="col-sm-3 col-form-label">Project Name</label>
+                            <div class="col-form-label">
+                                <input class="col-sm-6-form-check-input" type="checkbox" id="ck2" name="ck2">
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="project_name" name="project_name"
+                                    placeholder="Project Name" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="checkpro3" class="col-sm-3 col-form-label">Member</label>
+                            <div class="col-form-label">
+                                <input class="col-sm-6-form-check-input" type="checkbox" id="ck3" name="ck3">
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="member">
+                                    <option value="">Find Your Member</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                        <a href='/projects' class="btn btn-danger">Reset</a>
+                    </form>
                 </div>
-                <div class="form-group row">
-                    <label for="editLastname" class="col-sm-2 col-form-label">Last Name</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="editLastname" name="editLastname"
-                            placeholder="Fill last name" value="" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="editEmail" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="editEmail" name="editEmail" placeholder="Email" value="" >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="editPass" class="col-sm-2 col-form-label">Password</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="editPass" name="editPass" placeholder="Password" value="" >
-                    </div>
-                </div>
-                <!-- position-radio -->
-                <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">Position</legend>
-                    <fieldset id="editPosition-radio" class="col-form-label col-sm-10 pt-0">
-                        <div class="col-sm-10">
-                            <div class="custom-control custom-radio my-1 mr-sm-2">
-                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio1"
-                                    value="manager" >
-                                <label class="custom-control-label" for="editPosition-radio1">
-                                    Manager
+                <br>
+                <br>
+            </div>
+            <br>
+
+            <div class="card">
+                <br>
+
+                <h4 class="col-sm-4" style="color:rgb(47, 21, 80);border-radius: 5px;margin-top:0px;margin-left:30px;">
+                    Option Column</h4>
+
+                <fieldset class="form-group" style="margin-left:50px">
+                    <form method="POST" action="/projects/projectoptions">
+
+                        <div class="row">
+
+                            <legend class="col-sm-1 col-form-label"></legend>
+                            <label class="col-md-2 col-form-label" style="font-size: 14pt">Columns</label>
+                            <div class="custom-control custom-checkbox my-2 mr-sm-2">
+                                <input class="custom-control-input" type="checkbox" name="idcheckbox" id="checkbox1"
+                                    value="true">
+                                <label class="custom-control-label" for="checkbox1">
+                                    ID Project
                                 </label>
                             </div>
-                            <div class="custom-control custom-radio my-1 mr-sm-2">
-                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio2"
-                                    value="software" >
-                                <label class="custom-control-label" for="editPosition-radio2">
-                                    Software Developer
+                            <div class="custom-control custom-checkbox my-2 mr-sm-2">
+                                <input class="custom-control-input" type="checkbox" name="namecheckbox" id="checkbox2"
+                                    value="true">
+                                <label class="custom-control-label" for="checkbox2">
+                                    Name
                                 </label>
                             </div>
-                            <div class="custom-control custom-radio my-1 mr-sm-2">
-                                <input class="custom-control-input" type="radio" name="editPosition" id="editPosition-radio3"
-                                    value="quality" >
-                                <label class="custom-control-label" for="editPosition-radio3">
-                                    Quality Assurance
+                            <div class="custom-control custom-checkbox my-2 mr-sm-2">
+                                <input class="custom-control-input" type="checkbox" name="memberscheckbox"
+                                    id="checkbox3" value="true">
+                                <label class="custom-control-label" for="checkbox3">
+                                    Members
                                 </label>
                             </div>
                         </div>
-                    </fieldset>
+
+                        <button type="submit" class="btn btn-outline-primary">Apply</button>
+                    </form>
+                </fieldset>
+            </div>
+
+            <div class="card table-responsive">
+                <div style="margin-left:50px;margin-right:100px">
+                    <table class="table table-hover" id="example" class="display">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col1">Name</th>
                 </div>
-                <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">Working Status</legend>
-                    <fieldset id="editStatus-radio" cslass="col-form-label col-sm-10 pt-0">
-                        <div class="col-sm-10">
-                            <div class="custom-control custom-radio my-1 mr-sm-2">
-                                <input class="custom-control-input" type="radio" name="editStatus" id="editStatus-radio1"
-                                    value="fulltime">
-                                <label class="custom-control-label" for="editStatus-radio1">
-                                    Full Time
-                                </label>
-                            </div>
-                            <div class="custom-control custom-radio my-1 mr-sm-2">
-                                <input class="custom-control-input" type="radio" name="editStatus" id="editStatus-radio2"
-                                    value="parttime" >
-                                <label class="custom-control-label" for="editStatus-radio2">
-                                    Part Time
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                
-                <button type="submit" class="btn btn-outline-info" onclick="return confirm('Edit This User?')">Save</button>
-            <a href='/users' class="btn btn-outline-warning">Cancel</a>
-                
+                <th scope="col">Members</th>
+                <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+
+
+
+
+                </tbody>
+                </table>
+
+               
+
+                <a href='/projects/add' class="btn btn-outline-danger">Add</a></td>
             </div>
         </div>
+
     </div>
+</div>
 </div>
 
 <% include partial/footer %>
