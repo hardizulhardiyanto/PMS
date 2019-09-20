@@ -613,7 +613,8 @@ module.exports = function (pool) {
     let dtParams = req.params.projectid //using for dtParams sidebar
     console.log(dtParams);
     res.render('SIDEBAR TEMP(NOT USED)', {
-      dtParams
+      dtParams,
+      user: req.session.user
     })
   })
 
@@ -630,7 +631,8 @@ module.exports = function (pool) {
     let dtParams = req.params.projectid //using for dtParams sidebar
     console.log(dtParams);
     res.render('noSidebar', {
-      dtParams
+      dtParams,
+      user: req.session.user
     })
   })
 

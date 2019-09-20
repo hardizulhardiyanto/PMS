@@ -60,7 +60,7 @@
         </div>
         <div class="row">
             <legend class="col-form-label col-sm-2 pt-0">Working Status</legend>
-            <fieldset id="editStatus-radio" cslass="col-form-label col-sm-10 pt-0">
+            <fieldset id="editStatus-radio" class="col-form-label col-sm-10 pt-0">
                 <div class="col-sm-10">
                     <div class="custom-control custom-radio my-1 mr-sm-2">
                         <input class="custom-control-input" type="radio" name="editStatus" id="editStatus-radio1"
@@ -74,6 +74,28 @@
                             value="parttime" <%= data.work_status == 'parttime' ? 'checked' : '' %>>
                         <label class="custom-control-label" for="editStatus-radio2">
                             Part Time
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0">User Status</legend>
+            <fieldset id="userStatus-radio" class="col-form-label col-sm-10 pt-0">
+                <div class="col-sm-10">
+                    <div class="custom-control custom-radio my-1 mr-sm-2">
+                        <input class="custom-control-input" type="radio" name="userStatus" id="userStatus-radio1"
+                            value="true" <%= data.admin == true ? 'checked' : '' %>>
+                        <label class="custom-control-label" for="userStatus-radio1">
+                            Admin
+                        </label>
+                    </div>
+                    <div class="custom-control custom-radio my-1 mr-sm-2">
+                        <input class="custom-control-input" type="radio" name="userStatus" id="userStatus-radio2"
+                            value="false" <%= data.admin == false ? 'checked' : '' %>>
+                        <label class="custom-control-label" for="userStatus-radio2">
+                            User
                         </label>
                     </div>
                 </div>

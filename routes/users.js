@@ -88,12 +88,13 @@ module.exports = (pool) => {
         res.render('projects/users/list', {
           data: callUsers.rows, nav,
           query: req.query,
+          user: req.session.user,
           pagination: { page, pages, total, url },
           successEditUser: req.flash('successEditUser'),
           successDelete: req.flash('SuccessDelete'),
           failedDelete: req.flash('failedDelete'),
           addDataSuccess: req.flash('addDataSuccess')
-          
+
 
         })
 
@@ -120,6 +121,8 @@ module.exports = (pool) => {
     pool.query(sqlData, (err, resUser) => {
 
       console.log(resUser.rows[0]);
+      console.log(resUser.rows[0].admin);
+      
 
       res.render('projects/users/edit', {
         data: resUser.rows[0]
@@ -150,7 +153,8 @@ module.exports = (pool) => {
       editEmail,
       editPass,
       editPosition,
-      editStatus
+      editStatus,
+      userStatus
     } = req.body
 
     let sqlUpdate = ` UPDATE users SET  email='${editEmail}', 
@@ -158,7 +162,8 @@ module.exports = (pool) => {
     lastname='${editLastname}', 
     roles='${editPosition}', 
     password='${editPass}',  
-    work_status='${editStatus}'
+    work_status='${editStatus}',
+    admin='${userStatus}'
     WHERE userid = '${dtParams}';`
     console.log(sqlUpdate);
 
@@ -241,16 +246,17 @@ module.exports = (pool) => {
       newEmail,
       newPass,
       position,
-      workingStatus
+      workingStatus,
+      userStatus
     } = req.body
     console.log(req.body);
-    
-    
+
+
 
 
     let sqlAdd = `INSERT INTO public.users(
-      email, firstname, lastname, roles, password, work_status)
-      VALUES ('${newEmail}', '${newFirstname}', '${newLastname}', '${position}', '${newPass}', '${workingStatus}'); `
+      email, firstname, lastname, roles, password, work_status, admin)
+      VALUES ('${newEmail}', '${newFirstname}', '${newLastname}', '${position}', '${newPass}', '${workingStatus}', '${userStatus}'); `
     console.log(sqlAdd);
 
     pool.query(sqlAdd, (err, dtInsert) => {

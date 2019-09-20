@@ -27,7 +27,8 @@ module.exports = (pool) => {
       console.log(dataDB.rows);
       
       res.render('profile/profile',{
-        dbDATA : dataDB.rows, nav
+        dbDATA : dataDB.rows, nav,
+        user: req.session.user
       });
     })
   });
