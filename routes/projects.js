@@ -129,7 +129,8 @@ module.exports = function (pool) {
               dtAllMember: allMember.rows,
               addProjectSuccess: req.flash('addProjectSuccess'),
               editSuccess: req.flash('editSuccess'),
-              deleteProject: req.flash('deleteProject')
+              deleteProject: req.flash('deleteProject'),
+              editProfileSuccess: req.flash('editProfileSuccess')
             })
           })
         })

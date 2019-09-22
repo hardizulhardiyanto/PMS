@@ -38,7 +38,7 @@ module.exports = (pool) => {
     console.log("");
     console.log("");
     console.log("WORK ROUTER PROFILE");
-    console.log("=======================UPDATE PROFILE=============================");
+    console.log("======================= POST UPDATE PROFILE =============================");
     console.log("");
     console.log("");
     console.log("");
@@ -51,7 +51,9 @@ module.exports = (pool) => {
     if (password.length > 0) {
       let dbPassNotNull = `UPDATE users SET password = '${password}', roles = '${position}', work_status = '${working_status}'  WHERE userid = '${dtParams}';`
       pool.query(dbPassNotNull, (err, processDBtrue) => {
-        // res.redirect('/projects')
+        req.flash('editProfileSuccess', 'WELL DONE!! Edit Profile Success')
+        res.redirect('/projects')
+
       })
 
       console.log(`dbNotNull> ${dbPassNotNull}`);
@@ -64,12 +66,14 @@ module.exports = (pool) => {
       let dbPassNull = `UPDATE users SET roles = '${position}', work_status = '${working_status}' WHERE userid = '${dtParams}';`
 
       pool.query(dbPassNull, (err, processDBfalse) => {
+        req.flash('editProfileSuccess', 'WELL DONE!! Edit Profile Success')
         res.redirect('/projects')
       })
       console.log(`dbNull> ${dbPassNull}`);
       console.log("");
       console.log("");
       console.log("PROCESSED");
+
       
     }
 
