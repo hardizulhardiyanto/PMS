@@ -23,10 +23,16 @@
         <%}%>
 
         <% if(successEditIssue.length > 0) { %>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-success" role="alert">
                 <h2> <%= successEditIssue %></h2>
             </div>
             <%}%>
+
+            <% if(failedAddIssue.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <h2> <%= failedAddIssue %></h2>
+                </div>
+                <%}%>
             
         <div class="table-responsive">
             <div class="card">

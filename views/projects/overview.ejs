@@ -4,7 +4,8 @@
     <div class="row">
         <% include ../partial/sidebar%>
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Overview</h1>
         </div>
 
@@ -14,9 +15,9 @@
                 <div class="card-body">
                     <ul>
                         <p>Issue Tracking</p>
-                        <li>Bug: <%=dtBug%> Open / <%=dtStatus%> </li>
-                        <li>Feature: <%=dtFeature%> Open / <%=dtStatus%></li>
-                        <li>Support: <%=dtSupport%> Open / <%=dtStatus%></li>
+                        <li>Bug: <%=issueBug%> Open / <%=closedBug%> </li>
+                        <li>Feature: <%=countFeature%> Open / <%=bugFeature%></li>
+                        <li>Support: <%=issuesSupport%> Open / <%=bugSupport%></li>
                     </ul>
                 </div>
                 <br />
@@ -36,4 +37,4 @@
 
 
 <% include ../partial/endsidebar %>
-<% include ../partial/footer %>
+                        <% include ../partial/footer %>

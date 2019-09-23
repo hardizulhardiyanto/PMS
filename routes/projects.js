@@ -424,32 +424,54 @@ module.exports = function (pool) {
     console.log(dataDB);
     pool.query(dataDB, (err, procdataDB) => {
 
-      let cBug = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Bug'`
-      pool.query(cBug, (err, pBug) => {
-        let dtBug = pBug.rows[0].total
-        console.log('pBug >', pBug.rows[0].total);
+      let countBug = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Bug' AND projectid='${dtParams}'`
+      let countIssueBug = `SELECT COUNT(*) AS total FROM issues WHERE projectid = '${dtParams}' AND tracker = 'Bug' AND status !='Closed'`
 
-        let cFeature = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker ='Feature'`
-        pool.query(cFeature, (err, pFeature) => {
-          let dtFeature = pFeature.rows[0].total
-          console.log(dtFeature);
+      pool.query(countBug, (err, pBug) => {
+        pool.query(countIssueBug, (err, countStatusBUG) => {
+          let issueBug = pBug.rows[0].total
+          let closedBug = countStatusBUG.rows[0].total
+          console.log('dtIssue > ', issueBug);
+          console.log('closedBug > ', closedBug);
+          
+          
+          let cFeature = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Feature' AND projectid='${dtParams}'`
+          pool.query(cFeature, (err, issueFeature) => {
+
+            let countFeature = issueFeature.rows[0].total
+            console.log('issueFeature > ', countFeature);
+            
+            
+            let stFeature = `SELECT COUNT(*) AS total FROM issues WHERE projectid = '${dtParams}' AND tracker = 'Feature' AND status !='Closed'`
+            pool.query(stFeature, (err, bugFeatureCount) => {
+
+              let bugFeature = bugFeatureCount.rows[0].total
+              console.log('dtFeature >', bugFeature);
+          
 
 
-          let cSupport = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Support'`
-          pool.query(cSupport, (err, pSupport) => {
-            let dtSupport = pSupport.rows[0].total
+              let cSupport = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Support' AND projectid='${dtParams}'`
+              let stSupport = `SELECT COUNT(*) AS total FROM issues WHERE tracker='Support' AND projectid='${dtParams}' AND status != 'Closed'`
+          
+              pool.query(cSupport, (err, dtSupport) => {
+                pool.query(stSupport, (err, dtstSupport) => {
+                  let issuesSupport = dtSupport.rows[0].total
+                  let bugSupport = dtstSupport.rows[0].total
+                  console.log('issuesSupport > ', issuesSupport);
+                  console.log('bugSupport > ', bugSupport);
 
-            let cStatus = `SELECT COUNT (tracker) AS total FROM issues WHERE status NOT IN ('Closed')`
-            pool.query(cStatus, (err, pStatus) => {
-              let dtStatus = pStatus.rows[0].total
+                  
+                    res.render('projects/overview', {
+                      dataProc: procdataDB.rows, dtParams, nav1, nav,
+                      issueBug, closedBug, countFeature,bugFeature,issuesSupport, bugSupport,
+                      user: req.session.user
+  
+                    })
+  
+                  
 
-              res.render('projects/overview', {
-                dataProc: procdataDB.rows, dtParams, nav1, nav,
-                dtBug, dtFeature, dtSupport, dtStatus,
-                user: req.session.user
-
+                })
               })
-
             })
           })
         })
@@ -915,6 +937,7 @@ module.exports = function (pool) {
             successAddIssue: req.flash('successAddIssue'),
             successDELETEIssue: req.flash('deleteIssue'),
             successEditIssue: req.flash('successEdit'),
+            failedAddIssue: req.flash('failedAddIssue'),
             user: req.session.user
 
 
@@ -1046,13 +1069,20 @@ module.exports = function (pool) {
     pool.query(AddIssue, (err, insertIssue) => {
 
       let activityIssue = `INSERT INTO activity(title, description, author, time)
-        VALUES ( ('${subjectform}''#${dtParams}''${statusIssue}'), '${descriptionform}', '${authoradd}', '${moment().format('YYYY-MM-DD hh:mm:ss')}');`
+        VALUES ( ('${subjectform}''#${dtParams}''${statusIssue}'), '${descriptionform}', '${userid}', '${moment().format('YYYY-MM-DD hh:mm:ss')}');`
 
       console.log('sql Activity > ', activityIssue);
       pool.query(activityIssue, (err, insertAct) => {
 
-        req.flash('successAddIssue', 'YEAY!! Add Issue SUCCESS')
-        res.redirect(`/issuesList/${dtParams}`)
+        if (err) {
+          req.flash('successAddIssue', 'YEAY!! Add Issue SUCCESS')
+          res.redirect(`/projects/issuesList/${dtParams}`)
+
+        } else {
+
+          req.flash('failedAddIssue', 'Sorry!! Add Issue Failed')
+          res.redirect(`/projects/issuesList/${dtParams}`)
+        }
 
       })
 
@@ -1236,7 +1266,7 @@ module.exports = function (pool) {
     console.log(sevendays);
 
     let sqlAct = `SELECT activity.activityid,time, title, description, author, users.userid, firstname, lastname 
-    FROM activity
+    FROM activity 
     INNER JOIN users ON activity.author=users.userid WHERE time BETWEEN '${moment(sevendays).format('YYYY-MM-DD')}' AND '${moment(now).add(1, 'days').format('YYYY-MM-DD')}' order by time desc`;
 
     console.log('this date >', sqlAct);
