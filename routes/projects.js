@@ -92,7 +92,7 @@ module.exports = function (pool) {
       if (filter.length > 0) {
         sql += ` WHERE ${filter.join(" AND ")}`
       }
-      sql += ` ORDER BY projects.projectid LIMIT ${limit} OFFSET ${offset}`
+      sql += ` ORDER BY projects.projectid DESC LIMIT ${limit} OFFSET ${offset}`
 
       console.log("============database SQL 2============ ");
       console.log(sql);
