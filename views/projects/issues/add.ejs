@@ -50,7 +50,7 @@
             <label for="inputUser" class="col-sm-2 col-form-label">Subject</label>
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="subjectform" name="subjectform" placeholder="Subject"
-                    value="">
+                    value="" required>
             </div>
         </div>
 
@@ -59,7 +59,7 @@
             <label for="inputUser" class="col-sm-2 col-form-label">Description</label>
             <div class="col-sm-9">
                 <textarea class="form-control" rows="3" id="descriptionform" name="descriptionform"
-                    placeholder="Description" value=""></textarea>
+                    placeholder="Description" value="" required></textarea>
             </div>
         </div>
 
@@ -153,7 +153,7 @@
         <!-- assignee -->
         <div class="form-group row">
             <label for="assigneeform" class="col-sm-2 col-form-label">Assignee</label>
-            <div class="col-sm-9">
+            <div class="col-sm-9" required>
                 <select class="custom-select form-control" name="assigneeform" id="assigneeform">
                     <option>Assignee</option>
                     <% for (let i = 0;i < dataUser.length;i++) { %>
@@ -187,7 +187,7 @@
             <label for="estimatedform" class="col-sm-2 col-form-label">Estimated Time</label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="estimatedform" name="estimatedform" placeholder="Due Date"
-                    value="">
+                    value="" required>
             </div>
         </div>
 
@@ -209,7 +209,7 @@
         <div class="form-group row">
             <label for="validatedCustomFile" class="col-sm-2 col-form-label">File</label>
             <div class="col-sm-9">
-                <input type="file" name="sampleFile" value="sampleFile" />
+                <input type="file" name="sampleFile" value="sampleFile" required />
             </div>
         </div>
 

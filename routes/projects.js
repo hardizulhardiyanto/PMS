@@ -1075,12 +1075,13 @@ module.exports = function (pool) {
       pool.query(activityIssue, (err, insertAct) => {
 
         if (err) {
-          req.flash('successAddIssue', 'YEAY!! Add Issue SUCCESS')
-          res.redirect(`/projects/issuesList/${dtParams}`)
-
-        } else {
-
+          
           req.flash('failedAddIssue', 'Sorry!! Add Issue Failed')
+          res.redirect(`/projects/issuesList/${dtParams}`)
+          
+        } else {
+          
+          req.flash('successAddIssue', 'YEAY!! Add Issue SUCCESS')
           res.redirect(`/projects/issuesList/${dtParams}`)
         }
 
