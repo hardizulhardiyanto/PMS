@@ -7,19 +7,19 @@ var flash = require('connect-flash');
 var session = require('express-session');
 const fileUpload = require('express-fileupload')
 
-// database  LOCAL----------\\
+// database  LOCAL---------- if use this local server this comment\\
 // const Pool = require('pg').Pool
 // const pool = new Pool({
 //   user: 'postgres',
 //   host: 'localhost',
-//   database: 'ch23',
+//   database: 'pmsdatastore',
 //   password: 'hardy777666',
 //   port: 5432,
 // })
 //----end database---\\
 
 
-// // database HEROKU----------\\
+// // database HEROKU---------- if use this heroku server this comment\\
 const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'ssoruvvnspmoyc',
