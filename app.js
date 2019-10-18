@@ -22,10 +22,10 @@ const fileUpload = require('express-fileupload')
 // // database HEROKU----------\\
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'hlwhiojjqrljsl',
-  host: 'ec2-54-235-181-55.compute-1.amazonaws.com',
-  database: 'd6i7gtmv3jlh2u',
-  password: 'c8d9f83ff5e57b56a72254603f5b3cad6e9eac93728b91501d7216f3fe34a31e',
+  user: 'ssoruvvnspmoyc',
+  host: 'ec2-23-23-228-132.compute-1.amazonaws.com',
+  database: 'di3qe14cq3mgu',
+  password: '6572a10b138dccb76186389f0abbc93da7875a42901f90e9aa8c9ef8f5bb1f57',
   port: 5432
 })
 //----end database---\\
