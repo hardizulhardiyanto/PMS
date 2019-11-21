@@ -7,7 +7,7 @@ module.exports = (pool) => {
 
 
   /**Get LIST AREA */
-  router.get('/', (req, res, next) => {
+  router.get('/', loginSession.isLoggedIn, (req, res, next) => {
     nav = 3
     console.log("");
     console.log("");
@@ -102,7 +102,7 @@ module.exports = (pool) => {
     })
   });
 
-  router.get('/edit/:userid', (req, res) => {
+  router.get('/edit/:userid', loginSession.isLoggedIn, (req, res) => {
     nav = 3
     console.log("");
     console.log("");
@@ -134,7 +134,7 @@ module.exports = (pool) => {
 
   })
 
-  router.post('/edit/:userid', (req, res) => {
+  router.post('/edit/:userid', loginSession.isLoggedIn, (req, res) => {
     nav = 3
     console.log("");
     console.log("");
@@ -179,7 +179,7 @@ module.exports = (pool) => {
 
   })
 
-  router.get('/delete/:userid', (req, res) => {
+  router.get('/delete/:userid', loginSession.isLoggedIn, (req, res) => {
     console.log("");
     console.log("");
     console.log("");
@@ -215,7 +215,7 @@ module.exports = (pool) => {
   })
 
   /**Get Add User*/
-  router.get('/addUser', (req, res) => {
+  router.get('/addUser', loginSession.isLoggedIn, (req, res) => {
     nav = 3
     console.log("");
     console.log("");
@@ -236,7 +236,7 @@ module.exports = (pool) => {
   })
 
   /**Post Add User */
-  router.post('/postAddUser', (req, res) => {
+  router.post('/postAddUser', loginSession.isLoggedIn, (req, res) => {
     nav = 3
     console.log("");
     console.log("");

@@ -6,6 +6,13 @@ const nodemailer = require("nodemailer");
 
 module.exports = function (pool) {
 
+  // router tes new login
+  router.get('/newLogin', function (req, res, next) {
+    
+      res.render('newLogin')
+    
+  })
+
 
   /* GET home page. */
   router.get('/', function (req, res, next) {
@@ -19,7 +26,7 @@ module.exports = function (pool) {
     console.log("");
 
     
-    res.render('login', {
+    res.render('newLogin', {
       title: 'Login',
       user: req.session.user,
       loginMessage: req.flash('loginMessage')
@@ -36,7 +43,7 @@ module.exports = function (pool) {
     console.log("");
     console.log("");
     
-    res.render('login', { title: 'Login', user: req.session.user, loginMessage: req.flash('loginMessage') })
+    res.render('newLogin', { title: 'Login', user: req.session.user, loginMessage: req.flash('loginMessage') })
   })
 
   router.post('/login', function (req, res, next) {

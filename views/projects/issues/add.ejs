@@ -50,7 +50,7 @@
             <label for="inputUser" class="col-sm-2 col-form-label">Subject</label>
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="subjectform" name="subjectform" placeholder="Subject"
-                    value="" required>
+                    value="" onkeyup="lettersonly(this)" required>
             </div>
         </div>
 
@@ -234,6 +234,14 @@
 </div>
 </div>
 </div>
+
+<!-- this function letter only using regular expression -->
+<script>
+    lettersonly = (input) => {
+        let regex = /[^a-z ]/gi;
+        input.value =  input.value.replace(regex, "")
+    }
+</script>
 
 <% include ../../partial/endsidebar %>
 <% include ../../partial/footer %>

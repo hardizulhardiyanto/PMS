@@ -7,27 +7,27 @@ var flash = require('connect-flash');
 var session = require('express-session');
 const fileUpload = require('express-fileupload')
 
-// database  LOCAL---------- if use this local server this comment\\
-// const Pool = require('pg').Pool
-// const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   database: 'pmsdatastore',
-//   password: 'hardy777666',
-//   port: 5432,
-// })
+// database  LOCAL---------- if use this heroku server this comment\\
+const Pool = require('pg').Pool
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'pmsdatastore',
+  password: 'hardy777666',
+  port: 5432,
+})
 //----end database---\\
 
 
-// // database HEROKU---------- if use this heroku server this comment\\
-const Pool = require('pg').Pool
-const pool = new Pool({
-  user: 'ssoruvvnspmoyc',
-  host: 'ec2-23-23-228-132.compute-1.amazonaws.com',
-  database: 'di3qe14cq3mgu',
-  password: '6572a10b138dccb76186389f0abbc93da7875a42901f90e9aa8c9ef8f5bb1f57',
-  port: 5432
-})
+// // database HEROKU---------- if use this local server this comment\\
+// const Pool = require('pg').Pool
+// const pool = new Pool({
+//   user: 'ssoruvvnspmoyc',
+//   host: 'ec2-23-23-228-132.compute-1.amazonaws.com',
+//   database: 'di3qe14cq3mgu',
+//   password: '6572a10b138dccb76186389f0abbc93da7875a42901f90e9aa8c9ef8f5bb1f57',
+//   port: 5432
+// })
 //----end database---\\
 
 var indexRouter = require('./routes/index')(pool);

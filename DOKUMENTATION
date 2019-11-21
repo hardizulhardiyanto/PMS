@@ -1,2 +1,7 @@
-1. HAL /projects = BUG FILTER : Indikator cek loopingan dan database
-2. Membuat SEMUA Alert lihat yang add Member = /postAddMember/:dtParams untuk router POST untuk GET /addMembers/:dtParams 
+1. membuat tampilan list project menampilkan berdasarkan userid / dari request session userid
+2. membuat token agar tidak bisa di access jika sudah logout
+3. user belum menggunakan session user sehingga masih ada error jika user sudah logout.
+4. membuat upper dan tolowercase sehingga inputan tidak bisa menggunakan tanda "{}[]()**&^^^%%$$$#"
+5. cek keseluruhan fungsi, sehingga fungsi semua berjalan normal
+
+create dokumentation sabtu 19/okt

@@ -28,6 +28,10 @@ module.exports = function (pool) {
 
     let ck1 = req.query.ck1, ck2 = req.query.ck2, ck3 = req.query.ck3
 
+    let userAdmin = req.session.user.admin
+    console.log('userAdmin > ', userAdmin);
+
+
     console.log("Vvvv_Req.query_vvvV");
     console.log(req.query);
 
@@ -55,21 +59,34 @@ module.exports = function (pool) {
     console.log(`this filter> ${filter}`);
     console.log(`thisUrl> ${url}`);
 
-
-    // database 1 MENJUMLAHKAN DATA UNTUK PAGINATION
-    let sql = `SELECT COUNT (id) AS total FROM (SELECT projects.projectid AS id 
+    if (userAdmin == true) {
+      // database 1 MENJUMLAHKAN DATA UNTUK PAGINATION
+      sql = `SELECT COUNT (id) AS total FROM (SELECT projects.projectid AS id 
       FROM projects 
       LEFT JOIN members ON projects.projectid = members.projectid
       LEFT JOIN users ON users.userid = members.userid`
-    if (filter.length > 0) {
-      sql += ` WHERE ${filter.join(" AND ")}`
+      if (filter.length > 0) {
+        sql += ` WHERE ${filter.join(" AND ")}`
+      }
+      sql += `) AS project_member`
+    } else {
+      // database 1 MENJUMLAHKAN DATA UNTUK PAGINATION
+      sql = `SELECT COUNT (id) AS total FROM (SELECT projects.projectid AS id 
+      FROM projects 
+      LEFT JOIN members ON projects.projectid = members.projectid
+      LEFT JOIN users ON users.userid = members.userid
+      WHERE users.userid=${req.session.user.userid}  `
+      if (filter.length > 0) {
+        sql += ` WHERE ${filter.join(" AND ")}`
+      }
+      sql += `) AS project_member`
     }
-    sql += `) AS project_member`
+
     pool.query(sql, (err, count) => {
       console.log("");
       console.log("");
       console.log("");
-      console.log("============database SQL 1============ ");
+      console.log("============database SQL 1 MENJUMLAHKAN TOTAL PROJECT ID============ ");
       console.log(sql);
       console.log("");
       console.log("");
@@ -83,22 +100,52 @@ module.exports = function (pool) {
 
       const pages = Math.ceil(total / limit)
 
-      // database 2 MENAMPILKAN DATA PROJECTS
-      sql = `SELECT * 
-      FROM members
-      INNER JOIN projects ON projects.projectid=members.projectid
-      INNER JOIN users ON users.userid=members.userid`
+      if (userAdmin == true) {
+        console.log('admin session');
+        // database 2 MENAMPILKAN DATA PROJECTS BERDASARKAN ADMIN SESSION
+        sql = `SELECT * 
+              FROM members
+              INNER JOIN projects ON projects.projectid=members.projectid
+              INNER JOIN users ON users.userid=members.userid`
+        console.log("============database SQL ADMIN=========== ");
+        console.log('show sql ADMIN > ', sql);
 
-      if (filter.length > 0) {
-        sql += ` WHERE ${filter.join(" AND ")}`
+        if (filter.length > 0) {
+          sql += ` WHERE ${filter.join(" AND ")}`
+        }
+        sql += ` ORDER BY projects.projectid DESC LIMIT ${limit} OFFSET ${offset}`
+
+        console.log("============database SQL 2 MENAMPILKAN JUMLAH LIMIT PAGINATION============ ");
+        console.log('show sql 2 > ', sql);
+        console.log("");
+        console.log("");
+        console.log("");
+
+      } else {
+        console.log('user session');
+        // database 2 MENAMPILKAN DATA PROJECTS BERDASARKAN USER SESSION
+        sql = `SELECT * 
+        FROM members
+        INNER JOIN projects ON projects.projectid=members.projectid
+        INNER JOIN users ON users.userid=members.userid
+        WHERE users.userid= ${req.session.user.userid}`
+        console.log("============database SQL USER============ ");
+        console.log('show sql User > ', sql);
+
+
+        if (filter.length > 0) {
+          sql += ` WHERE ${filter.join(" AND ")}`
+        }
+        sql += ` ORDER BY projects.projectid DESC LIMIT ${limit} OFFSET ${offset}`
+
+        console.log("============database SQL 2 MENAMPILKAN JUMLAH LIMIT PAGINATION============ ");
+        console.log('show sql 2 > ', sql);
+        console.log("");
+        console.log("");
+        console.log("");
+
       }
-      sql += ` ORDER BY projects.projectid DESC LIMIT ${limit} OFFSET ${offset}`
 
-      console.log("============database SQL 2============ ");
-      console.log(sql);
-      console.log("");
-      console.log("");
-      console.log("");
 
 
       let sqlUserColumn = `SELECT optionproject FROM users WHERE userid = ${req.session.user.userid}`;
@@ -143,7 +190,7 @@ module.exports = function (pool) {
   });
 
   /* POST PROJECTOPTIONS FOR CHECK OPTION */
-  router.post('/projectoptions', function (req, res) {
+  router.post('/projectoptions', loginSession.isLoggedIn, function (req, res) {
 
     console.log("");
     console.log("");
@@ -166,7 +213,7 @@ module.exports = function (pool) {
   })
 
   /* GET ADD PROJECT */
-  router.get('/add', function (req, res, next) {
+  router.get('/add', loginSession.isLoggedIn, function (req, res, next) {
     console.log("");
     console.log("");
     console.log("");
@@ -193,7 +240,7 @@ module.exports = function (pool) {
   });
 
   /* POST ADD PROJECT */
-  router.post('/add', function (req, res, next) {
+  router.post('/add', loginSession.isLoggedIn, function (req, res, next) {
     console.log("");
     console.log("");
     console.log("");
@@ -262,7 +309,7 @@ module.exports = function (pool) {
   })
 
   /* Router Get EDIT*/
-  router.get('/edit/:projectid', function (req, res, next, ) {
+  router.get('/edit/:projectid', loginSession.isLoggedIn, function (req, res, next, ) {
 
     console.log("");
     console.log("");
@@ -323,7 +370,7 @@ module.exports = function (pool) {
   })
 
   /*Router POST EDIT */
-  router.post('/edit/:projectid', function (req, res, next) {
+  router.post('/edit/:projectid', loginSession.isLoggedIn, function (req, res, next) {
 
     console.log("");
     console.log("");
@@ -376,7 +423,7 @@ module.exports = function (pool) {
   })
 
   /* GET DELETE */
-  router.get('/delete/:userid', function (req, res) {
+  router.get('/delete/:userid', loginSession.isLoggedIn, function (req, res) {
     console.log("");
     console.log("");
     console.log("");
@@ -401,7 +448,7 @@ module.exports = function (pool) {
   // ==================== ROUTER OVERVIEW AREA =================== \\
 
   /*GET OVERVIEW */
-  router.get('/overview/:projectid', (req, res, next) => {
+  router.get('/overview/:projectid', loginSession.isLoggedIn, (req, res, next) => {
     let nav1 = 2
 
     console.log("");
@@ -433,26 +480,26 @@ module.exports = function (pool) {
           let closedBug = countStatusBUG.rows[0].total
           console.log('dtIssue > ', issueBug);
           console.log('closedBug > ', closedBug);
-          
-          
+
+
           let cFeature = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Feature' AND projectid='${dtParams}'`
           pool.query(cFeature, (err, issueFeature) => {
 
             let countFeature = issueFeature.rows[0].total
             console.log('issueFeature > ', countFeature);
-            
-            
+
+
             let stFeature = `SELECT COUNT(*) AS total FROM issues WHERE projectid = '${dtParams}' AND tracker = 'Feature' AND status !='Closed'`
             pool.query(stFeature, (err, bugFeatureCount) => {
 
               let bugFeature = bugFeatureCount.rows[0].total
               console.log('dtFeature >', bugFeature);
-          
+
 
 
               let cSupport = `SELECT COUNT (tracker) AS total FROM issues WHERE tracker='Support' AND projectid='${dtParams}'`
               let stSupport = `SELECT COUNT(*) AS total FROM issues WHERE tracker='Support' AND projectid='${dtParams}' AND status != 'Closed'`
-          
+
               pool.query(cSupport, (err, dtSupport) => {
                 pool.query(stSupport, (err, dtstSupport) => {
                   let issuesSupport = dtSupport.rows[0].total
@@ -460,15 +507,15 @@ module.exports = function (pool) {
                   console.log('issuesSupport > ', issuesSupport);
                   console.log('bugSupport > ', bugSupport);
 
-                  
-                    res.render('projects/overview', {
-                      dataProc: procdataDB.rows, dtParams, nav1, nav,
-                      issueBug, closedBug, countFeature,bugFeature,issuesSupport, bugSupport,
-                      user: req.session.user
-  
-                    })
-  
-                  
+
+                  res.render('projects/overview', {
+                    dataProc: procdataDB.rows, dtParams, nav1, nav,
+                    issueBug, closedBug, countFeature, bugFeature, issuesSupport, bugSupport,
+                    user: req.session.user
+
+                  })
+
+
 
                 })
               })
@@ -481,7 +528,7 @@ module.exports = function (pool) {
 
   // ===================== MEMBER ROUTER AREA ========================================\\
   /*GET DATA MEMBER*/
-  router.get('/listMember/:projectid', (req, res, next) => {
+  router.get('/listMember/:projectid', loginSession.isLoggedIn, (req, res, next) => {
     let nav1 = 2
     console.log("");
     console.log("");
@@ -607,7 +654,7 @@ module.exports = function (pool) {
 
 
   /* POST PROJECTOPTIONS FOR CHECK OPTION LIST MEMBER */
-  router.post('/optionsListMember/:projectid', function (req, res) {
+  router.post('/optionsListMember/:projectid', loginSession.isLoggedIn, function (req, res) {
 
     console.log("");
     console.log("");
@@ -636,44 +683,10 @@ module.exports = function (pool) {
 
   })
 
-  /*ROUTER CHECK TEMPLATES */
-  router.get('/check', (req, res) => {
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("WORK ROUTER PROJECTS");
-    console.log("=====================GET CHECK TEMPLATE=============================");
-    console.log("");
-    console.log("");
-    console.log("");
-    let dtParams = req.params.projectid //using for dtParams sidebar
-    console.log(dtParams);
-    res.render('SIDEBAR TEMP(NOT USED)', {
-      dtParams,
-      user: req.session.user
-    })
-  })
 
-
-  router.get('/check2', (req, res) => {
-    console.log("");
-    console.log("");
-    console.log("");
-    console.log("WORK ROUTER PROJECTS");
-    console.log("=====================GET CHECK TEMPLATE=============================");
-    console.log("");
-    console.log("");
-    console.log("");
-    let dtParams = req.params.projectid //using for dtParams sidebar
-    console.log(dtParams);
-    res.render('noSidebar', {
-      dtParams,
-      user: req.session.user
-    })
-  })
 
   /** GET EDIT MEMBERS */
-  router.get('/editMember/:userid/:dtParams', (req, res, next) => {
+  router.get('/editMember/:userid/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
     nav1 = 3
     console.log("");
     console.log("");
@@ -707,7 +720,7 @@ module.exports = function (pool) {
   })
 
   /** POST EDIT MEMBER */
-  router.post('/editDTMember/:userid/:dtParams', (req, res, next) => {
+  router.post('/editDTMember/:userid/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
 
     console.log("");
     console.log("");
@@ -738,7 +751,7 @@ module.exports = function (pool) {
   })
 
   /* GET DELETE */
-  router.get('/deleteMember/:userid/:dtParams', function (req, res) {
+  router.get('/deleteMember/:userid/:dtParams', loginSession.isLoggedIn, function (req, res) {
     console.log("");
     console.log("");
     console.log("");
@@ -763,7 +776,7 @@ module.exports = function (pool) {
   })
 
   /** GET ADD MEMBER */
-  router.get('/addMembers/:dtParams', (req, res, next) => {
+  router.get('/addMembers/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
     nav1 = 3
     console.log("");
     console.log("");
@@ -795,7 +808,7 @@ module.exports = function (pool) {
   })
 
   /** POST ADD MEMBER */
-  router.post('/postAddMember/:dtParams', (req, res, next) => {
+  router.post('/postAddMember/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
 
     console.log("");
     console.log("");
@@ -840,7 +853,7 @@ module.exports = function (pool) {
 
   // =================== ROUTER DETAIL ISSUES AREA ======================\\
 
-  router.get('/issuesList/:projectid', (req, res, next) => {
+  router.get('/issuesList/:projectid', loginSession.isLoggedIn, (req, res, next) => {
     nav1 = 4
     console.log("");
     console.log("");
@@ -955,7 +968,7 @@ module.exports = function (pool) {
 
 
   /**GET OPTION ISSUE */
-  router.post('/optionIssue/:dtParams', (req, res, next) => {
+  router.post('/optionIssue/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
 
     console.log("");
     console.log("");
@@ -1017,7 +1030,7 @@ module.exports = function (pool) {
   })
 
   /** POST ADD ISSUES */
-  router.post('/PostIssuesAdd/:dtParams', (req, res, next) => {
+  router.post('/PostIssuesAdd/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
     console.log("");
     console.log("");
     console.log("");
@@ -1075,12 +1088,12 @@ module.exports = function (pool) {
       pool.query(activityIssue, (err, insertAct) => {
 
         if (err) {
-          
+
           req.flash('failedAddIssue', 'Sorry!! Add Issue Failed')
           res.redirect(`/projects/issuesList/${dtParams}`)
-          
+
         } else {
-          
+
           req.flash('successAddIssue', 'YEAY!! Add Issue SUCCESS')
           res.redirect(`/projects/issuesList/${dtParams}`)
         }
@@ -1093,7 +1106,7 @@ module.exports = function (pool) {
   })
 
   /** GET EDIT ISSUE */
-  router.get('/editListIssue/:issueid/:dtParams', (req, res, next) => {
+  router.get('/editListIssue/:issueid/:dtParams', loginSession.isLoggedIn, (req, res, next) => {
     nav1 = 4
     console.log("");
     console.log("");
@@ -1131,7 +1144,7 @@ module.exports = function (pool) {
   })
 
   /**GET DELETE ISSUE */
-  router.get('/deleteIssue/:issueid/:dtParams', (req, res) => {
+  router.get('/deleteIssue/:issueid/:dtParams', loginSession.isLoggedIn, (req, res) => {
     console.log("");
     console.log("");
     console.log("");
@@ -1156,7 +1169,7 @@ module.exports = function (pool) {
   })
 
   /**POST EDIT DATA */
-  router.post('/postEdit/:issueid/:dtParams', (req, res) => {
+  router.post('/postEdit/:issueid/:dtParams', loginSession.isLoggedIn, (req, res) => {
     console.log("");
     console.log("");
     console.log("");
@@ -1247,7 +1260,7 @@ module.exports = function (pool) {
 
   // ==================  ACTIVITY AREA PROCESS ============ \\
 
-  router.get('/activityMember/:projectid', (req, res, next) => {
+  router.get('/activityMember/:projectid', loginSession.isLoggedIn, (req, res, next) => {
     nav1 = 7
     console.log("");
     console.log("");
@@ -1261,7 +1274,7 @@ module.exports = function (pool) {
     console.log(dtParams);
 
     var days = 7;
-    var now = new Date();
+    var now = Date.now();
     var date = new Date();
     var sevendays = date.setTime(date.getTime() - (days * 24 * 60 * 60 * 1000));
     console.log(sevendays);
@@ -1291,6 +1304,44 @@ module.exports = function (pool) {
         user: req.session.user
 
       })
+    })
+  })
+
+
+  // ======================== area test tamplate
+  /*ROUTER CHECK TEMPLATES */
+  router.get('/check', loginSession.isLoggedIn, (req, res) => {
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("WORK ROUTER PROJECTS");
+    console.log("=====================GET CHECK TEMPLATE=============================");
+    console.log("");
+    console.log("");
+    console.log("");
+    let dtParams = req.params.projectid //using for dtParams sidebar
+    console.log(dtParams);
+    res.render('SIDEBAR TEMP(NOT USED)', {
+      dtParams,
+      user: req.session.user
+    })
+  })
+
+
+  router.get('/check2', loginSession.isLoggedIn, (req, res) => {
+    console.log("");
+    console.log("");
+    console.log("");
+    console.log("WORK ROUTER PROJECTS");
+    console.log("=====================GET CHECK TEMPLATE=============================");
+    console.log("");
+    console.log("");
+    console.log("");
+    let dtParams = req.params.projectid //using for dtParams sidebar
+    console.log(dtParams);
+    res.render('noSidebar', {
+      dtParams,
+      user: req.session.user
     })
   })
 
